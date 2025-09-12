@@ -1,46 +1,66 @@
-import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
-import { styles } from './styles';
+import React, { useMemo } from 'react';
+import { View, Button } from 'react-native';
 import { setOnboardingComplete } from '~secureStore/secureStore';
-import { useAppDispatch } from '~store/hooks';
+import { useAppDispatch, useAppSelector } from '~store/hooks';
 import { setOnboardingCompleteAction } from '~store/slices/appInitSlice';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '~navigation/types';
-
-const steps = [
-  { id: 1, text: 'Welcome to the app 🎉' },
-  { id: 2, text: 'Learn how to use PlantApp 🌱' },
-  { id: 3, text: 'Get started and explore 🌍' },
-];
+import {
+  nextStep,
+  resetOnboarding,
+  selectCurrentStepIndex,
+  selectOnboardingCompleted,
+} from '~store/slices/onboardingSlice';
+import { onboardingSteps } from '~modules/Onboarding/config/onboardingConfig';
 
 const OnboardingScreen: React.FC = () => {
-  const [stepIndex, setStepIndex] = useState(0);
-  const dispatch = useAppDispatch();
-  const navigation = useNavigation<NavigationProp>();
+  //#region hooks
 
-  const handleOnboardingComplete =  () => {
+  const navigation = useNavigation<NavigationProp>();
+  const dispatch = useAppDispatch();
+  const currentStepIndex = useAppSelector(selectCurrentStepIndex);
+  const completed = useAppSelector(selectOnboardingCompleted);
+
+  //#endregion
+
+  //#region variables
+
+  const buttonTitle = useMemo(() => {
+    return currentStepIndex === onboardingSteps.length - 1 ? 'Finish' : 'Next';
+  }, [currentStepIndex]);
+
+  const CurrentStepComponent = useMemo(
+    () => onboardingSteps[currentStepIndex].component,
+    [currentStepIndex]
+  );
+
+  //#endregion
+
+  //#region handlers
+
+  const handleOnboardingComplete = () => {
     dispatch(setOnboardingCompleteAction(true));
     setOnboardingComplete(true);
   };
 
   const handleNext = () => {
-    if (stepIndex < steps.length - 1) {
-      setStepIndex(prev => prev + 1);
-    } else {
+    dispatch(nextStep());
+    if (completed) {
       navigation.navigate('Paywall', {
-        onClosePaywall: handleOnboardingComplete
+        onClosePaywall: handleOnboardingComplete,
       });
-      
+      setTimeout(() => {
+        dispatch(resetOnboarding());
+      }, 500);
     }
   };
 
+  //#endregion
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{steps[stepIndex].text}</Text>
-      <Button
-        title={stepIndex === steps.length - 1 ? 'Finish' : 'Next'}
-        onPress={handleNext}
-      />
+    <View style={{ flex: 1 }}>
+      <CurrentStepComponent />
+      <Button title={buttonTitle} onPress={handleNext} />
     </View>
   );
 };
