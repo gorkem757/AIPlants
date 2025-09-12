@@ -5,6 +5,7 @@ import { styles } from './styles';
 import { RootStackScreenProps } from '~navigation/types';
 import {
   SafeAreaView,
+  useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
 type Props = RootStackScreenProps<'Paywall'>;
@@ -13,6 +14,7 @@ const PaywallScreen: React.FC = () => {
   const navigation = useNavigation<Props['navigation']>();
   const route = useRoute<Props['route']>();
   const { onClosePaywall } = route.params;
+  const insets = useSafeAreaInsets();
 
   const handleClose = () => {
     onClosePaywall?.();
@@ -33,7 +35,7 @@ const PaywallScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
       {/* Close button */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
