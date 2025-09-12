@@ -11,3 +11,5 @@ export const onboardingSteps: OnboardingStep[] = [
   { id: 'step-2', component: StepTwo },
   { id: 'step-3', component: StepThree },
 ];
+
+export const isOBPaywallEnabled = true; // Example condition

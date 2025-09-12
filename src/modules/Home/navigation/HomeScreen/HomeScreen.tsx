@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { setOnboardingComplete } from '~secureStore/secureStore';
 import { useAppDispatch } from '~store/hooks';
 import { setOnboardingCompleteAction } from '~store/slices/appInitSlice';
 
@@ -10,6 +11,7 @@ const HomeScreen = () => {
       <Text
         onPress={() => {
           dispatch(setOnboardingCompleteAction(false));
+          setOnboardingComplete(false);
         }}>
         Home Screen
       </Text>

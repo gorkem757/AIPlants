@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Button } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { setOnboardingComplete } from '~secureStore/secureStore';
 import { useAppDispatch, useAppSelector } from '~store/hooks';
 import { setOnboardingCompleteAction } from '~store/slices/appInitSlice';
@@ -9,9 +9,19 @@ import {
   nextStep,
   resetOnboarding,
   selectCurrentStepIndex,
-  selectOnboardingCompleted,
 } from '~store/slices/onboardingSlice';
-import { onboardingSteps } from '~modules/Onboarding/config/onboardingConfig';
+import {
+  isOBPaywallEnabled,
+  onboardingSteps,
+} from '~modules/Onboarding/config/onboardingConfig';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { styles } from './styles';
+
+const TERMS_AND_CONDITIONS_TEXT =
+  'By tapping next, you are agreeing to PlantID';
+const TERMS = 'Terms of Use';
+const AND = ' & ';
+const PRIVACY_POLICY = 'Privacy Policy';
 
 const OnboardingScreen: React.FC = () => {
   //#region hooks
@@ -19,14 +29,24 @@ const OnboardingScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const dispatch = useAppDispatch();
   const currentStepIndex = useAppSelector(selectCurrentStepIndex);
-  const completed = useAppSelector(selectOnboardingCompleted);
+  const insets = useSafeAreaInsets();
 
   //#endregion
 
   //#region variables
 
   const buttonTitle = useMemo(() => {
-    return currentStepIndex === onboardingSteps.length - 1 ? 'Finish' : 'Next';
+    if (currentStepIndex === 0) {
+      return 'Get Started';
+    }
+    if (
+      currentStepIndex === onboardingSteps.length - 1 &&
+      !isOBPaywallEnabled
+    ) {
+      return 'Begin your journey';
+    }
+
+    return 'Continue';
   }, [currentStepIndex]);
 
   const CurrentStepComponent = useMemo(
@@ -45,7 +65,8 @@ const OnboardingScreen: React.FC = () => {
 
   const handleNext = () => {
     dispatch(nextStep());
-    if (completed) {
+    if (currentStepIndex === onboardingSteps.length - 1) {
+      // TODO: handle cases where the paywall is not enabled "isOBPaywallEnabled"
       navigation.navigate('Paywall', {
         onClosePaywall: handleOnboardingComplete,
       });
@@ -55,12 +76,37 @@ const OnboardingScreen: React.FC = () => {
     }
   };
 
+  const onPressTerms = () => {
+    // Open a web link
+  };
+  const onPressPrivacy = () => {
+    // Open a web link
+  };
+
   //#endregion
 
+  const dynamicContainerStyle = {
+    paddingBottom: insets.bottom + 55,
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={[styles.container, dynamicContainerStyle]}>
       <CurrentStepComponent />
-      <Button title={buttonTitle} onPress={handleNext} />
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
+        <Text style={styles.buttonTitle}>{buttonTitle}</Text>
+      </TouchableOpacity>
+      {currentStepIndex === 0 && (
+        <Text style={styles.infoText}>
+          {TERMS_AND_CONDITIONS_TEXT}{' '}
+          <Text onPress={onPressTerms} style={styles.underlinedInfoText}>
+            {TERMS}
+          </Text>{' '}
+          {AND}{' '}
+          <Text onPress={onPressPrivacy} style={styles.underlinedInfoText}>
+            {PRIVACY_POLICY}
+          </Text>
+        </Text>
+      )}
     </View>
   );
 };

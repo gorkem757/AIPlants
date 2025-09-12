@@ -1,26 +1,32 @@
-// src/features/onboarding/steps/StepOne.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Image } from 'react-native';
+import { styles } from './styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const TITLE = 'Welcome to ';
+const HIGHLIGHT_TITLE = 'PlantApp';
+const SUBTITLE = 'Identify more than 3000+ plants and 88% accuracy.';
 
 const StepOne: React.FC = () => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to the App!</Text>
-      <Text style={styles.subtitle}>This is the first step of onboarding.</Text>
+    <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
+        <View style={styles.headerWrapper}>
+      <Text style={styles.title}>
+        {TITLE}
+        <Text style={styles.highlight}>{HIGHLIGHT_TITLE}</Text>
+      </Text>
+      <Text style={styles.subtitle}>{SUBTITLE}</Text>
+      </View>
+      <Image
+        source={require("assets/OBStarter.png")}
+        style={styles.image}
+        resizeMode="contain"
+        accessible
+        accessibilityLabel="Onboarding Step One Image"
+      />
     </View>
   );
 };
 
 export default StepOne;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor:'gold'
-  },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 10 },
-  subtitle: { fontSize: 16, textAlign: 'center' },
-});
