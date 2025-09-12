@@ -21,3 +21,23 @@ declare global {
 }
 
 export type NavigationProp = NativeStackNavigationProp<AppStackParamList>;
+
+export type HomeStackParamList = {
+  Home: undefined;
+};
+
+export type DiagnoseStackParamList = {
+  DiagnoseHome: undefined;
+};
+
+export type MyGardenStackParamList = {
+  MyGardenHome: undefined;
+};
+
+export type ProfileStackParamList = {
+  ProfileStackHome: undefined;
+};
+
+export type ScanStackParamList = {
+  ScanStackHome: undefined;
+};
