@@ -2,13 +2,19 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text } from 'react-native';
 import { MainTabParamList } from './types';
+import { useAppDispatch } from '~store/hooks';
+import { setOnboardingCompleteAction } from '~store/slices/appInitSlice';
 
 // Dummy screens for now
-const HomeScreen = () => (
+const HomeScreen = () => {
+   const dispatch = useAppDispatch();
+  return(
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Home Screen</Text>
+    <Text onPress={()=>{
+      dispatch(setOnboardingCompleteAction(false))
+    }}>Home Screen</Text>
   </View>
-);
+)};
 
 const ProfileScreen = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import PaywallNavigator from '~features/paywall/navigation/PaywallNavigator';
 import { useAppSelector } from '~store/hooks';
+import PaywallScreen from '~modules/Paywall/navigation/PaywallScreen/PaywallScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,11 +27,11 @@ const AppNavigator = () => {
         ) : (
           <Stack.Screen name="MainTabs" component={MainTabs} />
         )}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Paywall"
-          component={PaywallNavigator}
-          options={{ presentation: 'modal' }}
-        /> */}
+          component={PaywallScreen}
+          options={{ presentation: 'fullScreenModal' }}
+        />
       </Stack.Navigator>
     </Suspense>
   );
