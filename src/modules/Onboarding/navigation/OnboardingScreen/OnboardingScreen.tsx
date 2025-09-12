@@ -16,6 +16,7 @@ import {
 } from '~modules/Onboarding/config/onboardingConfig';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from './styles';
+import ProgressIndicatorSteps from '~modules/Onboarding/components/ProgressIndicator/ProgressIndicator';
 
 const TERMS_AND_CONDITIONS_TEXT =
   'By tapping next, you are agreeing to PlantID';
@@ -53,6 +54,15 @@ const OnboardingScreen: React.FC = () => {
     () => onboardingSteps[currentStepIndex].component,
     [currentStepIndex]
   );
+
+  const totalSteps = useMemo(() => {
+    let steps = onboardingSteps.length - 1;
+    // first step is not really a step its a starter by design so remove 1 from the count
+    if (isOBPaywallEnabled) {
+      steps += 1; // Add an extra step for the paywall if enabled
+    }
+    return steps;
+  }, [isOBPaywallEnabled,onboardingSteps]);
 
   //#endregion
 
@@ -95,7 +105,7 @@ const OnboardingScreen: React.FC = () => {
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonTitle}>{buttonTitle}</Text>
       </TouchableOpacity>
-      {currentStepIndex === 0 && (
+      {currentStepIndex === 0 ? (
         <Text style={styles.infoText}>
           {TERMS_AND_CONDITIONS_TEXT}{' '}
           <Text onPress={onPressTerms} style={styles.underlinedInfoText}>
@@ -106,6 +116,12 @@ const OnboardingScreen: React.FC = () => {
             {PRIVACY_POLICY}
           </Text>
         </Text>
+      ) : (
+        <ProgressIndicatorSteps
+          totalSteps={totalSteps}
+          currentStep={currentStepIndex - 1} // Adjust for the initial non-step screen
+          containerStyle={styles.progressIndicator}
+        />
       )}
     </View>
   );

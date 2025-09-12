@@ -33,4 +33,8 @@ export const styles = StyleSheet.create({
   underlinedInfoText: {
     textDecorationLine: 'underline',
   },
+  progressIndicator: {
+    marginTop: 32,
+    alignSelf: 'center',
+  },
 });
