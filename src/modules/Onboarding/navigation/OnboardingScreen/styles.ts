@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   button: {
     width: calcWidth(327),
     marginHorizontal: 24,
-    paddingVertical: 12,
+    paddingVertical: 16,
     backgroundColor: '#28AF6E',
     borderRadius: 12,
     justifyContent: 'center',

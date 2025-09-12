@@ -1,27 +1,27 @@
-// src/features/onboarding/steps/StepTwo.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Image } from 'react-native';
+import { styles } from './styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// TODO: implement second step image and stylings
+
+const TITLE = 'Take a photo to identify the plant!';
 
 const StepTwo: React.FC = () => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Discover Features</Text>
-      <Text style={styles.subtitle}>
-        Learn how to use the main features of our app.
-      </Text>
+    <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
+      <View style={styles.headerWrapper}>
+        <Text style={styles.title}>{TITLE}</Text>
+      </View>
+      <Image
+        source={require('assets/OBStarter.png')}
+        style={styles.image}
+        resizeMode="contain"
+        accessible
+        accessibilityLabel="Onboarding Step two Image"
+      />
     </View>
   );
 };
 
 export default StepTwo;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 10 },
-  subtitle: { fontSize: 16, textAlign: 'center' },
-});
