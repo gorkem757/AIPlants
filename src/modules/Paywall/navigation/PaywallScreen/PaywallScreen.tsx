@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { styles } from './styles';
 import { RootStackScreenProps } from '~navigation/types';
@@ -7,6 +7,12 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import FeaturesList from '~modules/Paywall/components/FeaturesList/FeaturesList';
+import {
+  FEATURES,
+  PAYWALL_PACKAGES,
+} from '~modules/Paywall/config/paywallConfig';
+import PackageList from '~modules/Paywall/components/PackageList/PackageList';
 
 type Props = RootStackScreenProps<'Paywall'>;
 
@@ -35,61 +41,37 @@ const PaywallScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={[styles.container]}>
+      <Image
+        source={require('assets/PaywallBGImage.png')}
+        style={styles.image}
+        // resizeMode="contain"
+      />
       {/* Close button */}
-      <View style={styles.header}>
+      <View style={[styles.header, { marginTop: insets.top }]}>
         <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
           <Text style={styles.closeButtonText}>✕</Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.content}>
+      <View style={styles.content}>
+        <Image
+          source={require('assets/PaywallCameraLine.png')}
+          style={styles.cameraLineImage}
+          // resizeMode="contain"
+        />
         {/* Header */}
-        <View style={styles.headerSection}>
-          <Text style={styles.title}>🌟 Go Premium!</Text>
-          <Text style={styles.subtitle}>
-            Unlock all features and get the most out of PlantApp
-          </Text>
-        </View>
+        <Text style={styles.title}>
+          <Text style={styles.highlightedTitle}>PlantApp</Text> Premium
+        </Text>
+        <Text style={styles.subtitle}>Access All Features</Text>
 
-        {/* Features */}
-        <View style={styles.featuresSection}>
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>🌱</Text>
-            <Text style={styles.featureText}>
-              Unlimited plant identification
-            </Text>
-          </View>
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>📊</Text>
-            <Text style={styles.featureText}>
-              Advanced plant care analytics
-            </Text>
-          </View>
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>🔔</Text>
-            <Text style={styles.featureText}>Smart watering reminders</Text>
-          </View>
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>☁️</Text>
-            <Text style={styles.featureText}>Cloud backup & sync</Text>
-          </View>
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>🎯</Text>
-            <Text style={styles.featureText}>
-              Personalized plant recommendations
-            </Text>
-          </View>
+        <FeaturesList features={FEATURES} />
+        <View style={styles.divider} />
+        <View style={{ flexShrink: 1 }}>
+          <PackageList paywallPackages={PAYWALL_PACKAGES} />
         </View>
-
-        {/* Pricing */}
-        <View style={styles.pricingSection}>
-          <View style={styles.priceCard}>
-            <Text style={styles.priceTitle}>Premium Monthly</Text>
-            <Text style={styles.price}>$4.99/month</Text>
-            <Text style={styles.priceSubtext}>Billed monthly</Text>
-          </View>
-        </View>
+        <View style={styles.divider} />
 
         {/* Buttons */}
         <View style={styles.buttonSection}>
@@ -98,16 +80,10 @@ const PaywallScreen: React.FC = () => {
             style={styles.subscribeButton}>
             <Text style={styles.subscribeButtonText}>Start Free Trial</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
-            <Text style={styles.skipButtonText}>
-              Continue with Free Version
-            </Text>
-          </TouchableOpacity>
         </View>
 
         {/* Footer */}
-        <View style={styles.footer}>
+        <View style={[styles.footer, { marginBottom: insets.bottom + 10 }]}>
           <Text style={styles.footerText}>
             7-day free trial, then $4.99/month. Cancel anytime.
           </Text>
@@ -115,8 +91,8 @@ const PaywallScreen: React.FC = () => {
             Terms of Service • Privacy Policy
           </Text>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </View>
   );
 };
 

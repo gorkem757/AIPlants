@@ -1,9 +1,26 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+import { calcHeight } from '~helpers/responsiveHelpers';
 
 export const styles = StyleSheet.create({
   container: {
+    justifyContent: 'space-between',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#111E17',
+  },
+  image: {
+    position: 'absolute',
+    height: calcHeight(490),
+    resizeMode: 'cover',
+    top: 0,
+    left: 0,
+  },
+  cameraLineImage: {
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: calcHeight(490),
+    resizeMode: 'contain',
+    top: 0,
+    left: 0,
   },
   header: {
     flexDirection: 'row',
@@ -15,37 +32,42 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#000000c4',
     justifyContent: 'center',
     alignItems: 'center',
   },
   closeButtonText: {
     fontSize: 18,
-    color: '#666',
+    color: '#ffffff',
     fontWeight: 'bold',
   },
-  content: {
-    padding: 20,
+  content: {    
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   headerSection: {
     alignItems: 'center',
     marginBottom: 40,
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
+    fontWeight: 'condensedBold',
+    color: 'white',
+    marginLeft: 24,
+  },
+  highlightedTitle: {
     fontWeight: 'bold',
-    color: '#2d3436',
-    marginBottom: 10,
-    textAlign: 'center',
   },
   subtitle: {
-    fontSize: 18,
-    color: '#636e72',
-    textAlign: 'center',
+    marginLeft: 24,
+    fontSize: 17,
+    fontWeight: 'light',
+    color: 'rgba(255, 255, 255, 0.7)',
     lineHeight: 24,
+    letterSpacing: 0.38,
   },
   featuresSection: {
-    marginBottom: 40,
+    marginTop: 12,
   },
   feature: {
     flexDirection: 'row',
@@ -93,6 +115,7 @@ export const styles = StyleSheet.create({
   },
   buttonSection: {
     marginBottom: 30,
+    paddingHorizontal: 20,
   },
   subscribeButton: {
     backgroundColor: '#00b894',
@@ -126,6 +149,7 @@ export const styles = StyleSheet.create({
   footer: {
     alignItems: 'center',
     paddingTop: 20,
+    paddingHorizontal: 20,
   },
   footerText: {
     fontSize: 12,
@@ -133,5 +157,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 5,
     lineHeight: 16,
+  },
+  divider: {
+    height: calcHeight(19),
   },
 });
