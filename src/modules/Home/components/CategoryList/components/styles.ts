@@ -21,7 +21,6 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#13231B',
     marginBottom: 16,
-    marginHorizontal: 24,
   },
   imageBackground: {
     width: calcWidth(158),
