@@ -6,6 +6,8 @@ import { useAppDispatch } from '~store/hooks';
 import { setOnboardingCompleteAction } from '~store/slices/appInitSlice';
 import { styles } from './styles';
 import FreeTrialCard from '~components/FreeTrialCard/FreeTrialCard';
+import GetStartedSection from '~modules/Home/components/GetStartedSection/GetStartedSection';
+import { useGetQuestionsListQuery } from '~services/QuestionsService';
 
 const HomeScreen = () => {
   //#region hooks
@@ -15,6 +17,16 @@ const HomeScreen = () => {
 
   //#region states
   const [text, onChangeText] = useState<string>('Search for plants');
+  //#endregion
+
+  //#region queries
+
+  const {
+    data: questionsData,
+    error: questionsError,
+    isLoading: isLoadingQuestions,
+  } = useGetQuestionsListQuery(null);
+
   //#endregion
 
   return (
@@ -33,6 +45,11 @@ const HomeScreen = () => {
       </View>
       <ScrollView style={styles.contentContainer}>
         <FreeTrialCard containerStyle={{ marginHorizontal: 24 }} />
+        <GetStartedSection
+          data={questionsData}
+          isLoading={isLoadingQuestions}
+          hasError={questionsError}
+        />
       </ScrollView>
     </View>
   );
