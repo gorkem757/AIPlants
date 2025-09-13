@@ -1,9 +1,12 @@
 import React, { useCallback } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { styles } from './styles';
-import {  GetStartedSectionProps } from './models';
+import { GetStartedSectionProps } from './models';
 import QuestionListItem from '../QuestionListItem/QuestionListItem';
 import { IGetQuestionListItem } from '~services/QuestionsService/interfaces';
+import { calcWidth } from '~helpers/responsiveHelpers';
+
+const ITEM_WIDTH = calcWidth(240);
 
 const GetStartedSection: React.FC<GetStartedSectionProps> = ({
   data,
@@ -36,6 +39,11 @@ const GetStartedSection: React.FC<GetStartedSectionProps> = ({
       <FlatList
         data={data}
         horizontal
+        getItemLayout={(_, index) => ({
+          length: ITEM_WIDTH,
+          offset: (ITEM_WIDTH + 16) * index,
+          index,
+        })}
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}
         contentContainerStyle={styles.listContentContainer}

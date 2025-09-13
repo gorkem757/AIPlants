@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { setOnboardingComplete } from '~secureStore/secureStore';
-import { useAppDispatch } from '~store/hooks';
-import { setOnboardingCompleteAction } from '~store/slices/appInitSlice';
 import { styles } from './styles';
 import FreeTrialCard from '~components/FreeTrialCard/FreeTrialCard';
 import GetStartedSection from '~modules/Home/components/GetStartedSection/GetStartedSection';
@@ -11,7 +8,6 @@ import { useGetQuestionsListQuery } from '~services/QuestionsService';
 
 const HomeScreen = () => {
   //#region hooks
-  const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
   //#endregion
 
