@@ -4,7 +4,7 @@ import { calcHeight } from '~helpers/responsiveHelpers';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FBFAFA',
   },
   header: {
     paddingHorizontal: 24,
@@ -23,6 +23,9 @@ export const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingVertical: 24,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FBFAFA',
+  },
+  footerDivider: {
+    height: 24,
   },
 });

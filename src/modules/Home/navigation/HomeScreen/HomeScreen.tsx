@@ -5,14 +5,20 @@ import { styles } from './styles';
 import FreeTrialCard from '~components/FreeTrialCard/FreeTrialCard';
 import GetStartedSection from '~modules/Home/components/GetStartedSection/GetStartedSection';
 import { useGetQuestionsListQuery } from '~services/QuestionsService';
+import { useGetCategoryListQuery } from '~services/CategoriesService';
+import CategoryList from '~modules/Home/components/CategoryList/CategoryList';
+import { useAppDispatch } from '~store/hooks';
+import { setOnboardingCompleteAction } from '~store/slices/appInitSlice';
+import { setOnboardingComplete } from '~secureStore/secureStore';
 
 const HomeScreen = () => {
   //#region hooks
+  const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
   //#endregion
 
   //#region states
-  const [text, onChangeText] = useState<string>('Search for plants');
+  const [text, onChangeText] = useState<string>('');
   //#endregion
 
   //#region queries
@@ -21,7 +27,14 @@ const HomeScreen = () => {
     data: questionsData,
     error: questionsError,
     isLoading: isLoadingQuestions,
-  } = useGetQuestionsListQuery(null);
+  } = useGetQuestionsListQuery();
+
+  const {
+    data: categoryData,
+    error: categoryError,
+    isLoading: isLoadingCategories,
+    isFetching: isFetchingMoreCategories,
+  } = useGetCategoryListQuery();
 
   //#endregion
 
@@ -32,8 +45,16 @@ const HomeScreen = () => {
         {/* TODO: get the name from userSlice if name nickname etc exists use that */}
         <Text style={styles.helloText}>Hi, plant lover!</Text>
         {/* // TODO: change greeting based on time of day */}
-        <Text style={styles.greetingsText}>Good Afternoon! ⛅</Text>
+        <Text
+          onPress={() => {
+            dispatch(setOnboardingCompleteAction(false));
+            setOnboardingComplete(false);
+          }}
+          style={styles.greetingsText}>
+          Good Afternoon! ⛅
+        </Text>
         <TextInput
+          placeholder="Search for plants"
           style={styles.searchInput}
           onChangeText={onChangeText}
           value={text}
@@ -46,6 +67,13 @@ const HomeScreen = () => {
           isLoading={isLoadingQuestions}
           hasError={questionsError}
         />
+        <CategoryList
+          data={categoryData?.data}
+          isLoading={isLoadingCategories}
+          hasError={categoryError}
+          isFetchingMore={isFetchingMoreCategories}
+        />
+        <View style={styles.footerDivider} />
       </ScrollView>
     </View>
   );

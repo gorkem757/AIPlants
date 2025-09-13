@@ -11,9 +11,10 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 20,
     fontWeight: '500',
-    color: '##13231B',
+    color: '#FFFFFF',
     marginBottom: 16,
     marginHorizontal: 24,
+    textAlignVertical: 'top',
   },
   image: {
     flex: 1,

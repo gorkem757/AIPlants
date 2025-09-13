@@ -26,6 +26,7 @@ const FeaturesList: React.FC<{ features: IPaywallFeature[] }> = ({
       data={features}
       renderItem={renderItem}
       horizontal
+      initialNumToRender={features.length}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.contentContainer}
       style={styles.container}

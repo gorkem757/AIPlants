@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { styles } from './styles';
-import { GetStartedSectionProps } from './models';
+import { GetStartedSectionProps } from './types';
 import QuestionListItem from '../QuestionListItem/QuestionListItem';
 import { IGetQuestionListItem } from '~services/QuestionsService/interfaces';
 import { calcWidth } from '~helpers/responsiveHelpers';
@@ -30,6 +30,7 @@ const GetStartedSection: React.FC<GetStartedSectionProps> = ({
   );
 
   if (!data || isLoading || hasError) {
+    // TODO implement skeleton on isLoading
     return null;
   }
 

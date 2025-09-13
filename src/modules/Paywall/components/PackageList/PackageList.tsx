@@ -39,6 +39,7 @@ const PackageList: React.FC<{ paywallPackages: IPaywallPackage[] }> = ({
       scrollEnabled={false}
       keyExtractor={keyExtractor}
       data={paywallPackages}
+       initialNumToRender={paywallPackages.length}
       renderItem={renderItem}
       showsVerticalScrollIndicator={false}
       style={styles.container}
